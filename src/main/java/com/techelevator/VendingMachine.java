@@ -26,7 +26,7 @@ public class VendingMachine {
     }
     public void listInventory(){
         for(String s : inventory.keySet()){
-            System.out.println(s + " " + inventory.get(s).getName() + " there are " + inventory.get(s).getQuantity() + " left");
+            System.out.println(s + " " + inventory.get(s).getName() + ". There are " + inventory.get(s).getQuantity() + " left, and they cost: " + inventory.get(s).getPrice());
         }
     }
     public void transaction(String key){
