@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class VendingMachine {
     Map<String,Item> inventory = new LinkedHashMap<>();
-
+    double machineBalance = 0;
 
     public void setInventory(){
         String path = "vendingmachine.csv";
@@ -29,7 +29,19 @@ public class VendingMachine {
             System.out.println(s + " " + inventory.get(s).getName() + " there are " + inventory.get(s).getQuantity() + " left");
         }
     }
+    public void transaction(String key){
+
+        //update quantity
+        //update machine balance
+    }
+    public double change(){
+        //calculating the change in coins based on remaining balance
+        return 0;
+    }
     public Map<String, Item> getInventory() {
         return inventory;
+    }
+    public void addMoney(double money){
+        machineBalance += money;
     }
 }
