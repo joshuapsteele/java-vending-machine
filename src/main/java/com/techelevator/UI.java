@@ -95,7 +95,20 @@ public class UI {
                     }
                 }
                 if(inputNum2 == 3){
-                    UIvm.change();
+
+                    double change =  (((int)(UIvm.getMachineBalance() * 100 + 0.5)) / 100d);
+                    System.out.println("Your change is: $" +   (change));
+                    int[] changeArr = UIvm.change();
+                    System.out.println(changeArr[0] + " Quarters");
+                    if(changeArr[1] != 0) {
+                        System.out.println(changeArr[1] + " Dimes");
+                    }
+                    if(changeArr[2] != 0) {
+                        System.out.println(changeArr[2] + " Nickels");
+                    }
+                    if(changeArr[3] != 0) {
+                        System.out.println(changeArr[3] + " Pennies");
+                    }
                 }
             }catch(Exception e){
                 System.out.println("Did not enter a valid number, try again");

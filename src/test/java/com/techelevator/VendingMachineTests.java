@@ -15,7 +15,10 @@ public class VendingMachineTests {
             System.out.println("Error while trying to write the machine log. Please try again.");
         }
         testVM.addMoney(8.30);
-       // double returnedChange = ;
+        int[] testArr = testVM.change();
+        Assert.assertEquals(33,testArr[0]);
+        Assert.assertEquals(1,testArr[2]);
+
     }
     @Test
     public void transactionTest(){

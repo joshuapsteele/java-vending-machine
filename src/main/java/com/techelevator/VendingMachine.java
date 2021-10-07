@@ -67,33 +67,34 @@ public class VendingMachine {
         machineBalance -= inventory.get(key).getPrice();
     }
 
-    public void change() {
-        int centsLeft = (int) (getMachineBalance() * 100);
-        int numberOfQuarters = 0;
-        int numberOfDimes = 0;
-        int numberOfNickels = 0;
-        int numberOfPennies = 0;
+    public int[] change() {
+        int centsLeft = (int) ((getMachineBalance() * 100) + 0.5);
+        int[] changeArr = new int[]{0, 0, 0, 0,centsLeft};
+//        int numberOfQuarters = 0;
+//        int numberOfDimes = 0;
+//        int numberOfNickels = 0;
+//        int numberOfPennies = 0;
         while (centsLeft > 0)
             if (centsLeft >= 25) {
-                numberOfQuarters++;
+                changeArr[0]++;
                 centsLeft -= 25;
             } else if (centsLeft >= 10) {
-                numberOfDimes++;
+                changeArr[1]++;
                 centsLeft -= 10;
             } else if (centsLeft >= 5) {
-                numberOfNickels++;
+                changeArr[2]++;
                 centsLeft -= 5;
             } else if (centsLeft >= 1) {
-                numberOfPennies++;
+                changeArr[3]++;
                 centsLeft--;
             }
 
-        System.out.println("Here is your change.");
-        System.out.println("$ " + (int) ((getMachineBalance() * 100) + 0.5) / 100d); //Rounds the double before displaying.
-        System.out.println(numberOfQuarters + " Quarters");
-        System.out.println(numberOfDimes + " Dimes");
-        System.out.println(numberOfNickels + " Nickels");
-        System.out.println(numberOfPennies + " Pennies");
+//        System.out.println("Here is your change.");
+//        System.out.println("$ " + (int) ((getMachineBalance() * 100) + 0.5) / 100d); //Rounds the double before displaying.
+//        System.out.println(numberOfQuarters + " Quarters");
+//        System.out.println(numberOfDimes + " Dimes");
+//        System.out.println(numberOfNickels + " Nickels");
+//        System.out.println(numberOfPennies + " Pennies");
 
         logWriter.println(timeNow + " GIVE CHANGE: $" + getMachineBalance() + " $0.00");
         logWriter.flush();
@@ -101,6 +102,7 @@ public class VendingMachine {
         if (centsLeft == 0) {
             machineBalance = 0;
         }
+        return changeArr;
     }
 
     public Map<String, Item> getInventory() {
