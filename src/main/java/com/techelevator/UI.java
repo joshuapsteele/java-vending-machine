@@ -43,13 +43,23 @@ public class UI {
             try {
                 /////////add error message , write tests for vending machine
                 inputNum2 = Integer.parseInt(purchaseInput);
+                if (inputNum2 > 3 || inputNum2 < 1){
+                    System.out.println("Please enter a valid option choice.");
+                }
                 if (inputNum2 == 1) {
-                    System.out.println("How much money would you like to add?");
+                    System.out.println("How much money would you like to add? (In Bills)");
                     String moneyToAddStr;
                     moneyToAddStr = input.nextLine();
+
                     try {
                         moneyToAdd += Double.parseDouble(moneyToAddStr);
-                        UIvm.addMoney(moneyToAdd);
+                        if(moneyToAdd == 1 || moneyToAdd == 2 || moneyToAdd == 5 || moneyToAdd == 10 || moneyToAdd == 20){
+                            UIvm.addMoney(moneyToAdd);
+                        } else{
+                            System.out.println("You may only enter valid bills. 1,2,5 etc");
+                            moneyToAdd -= moneyToAdd;
+                        }
+
                     }catch(Exception b){
                         System.out.println("Did not enter a valid number, try again");
                     }
