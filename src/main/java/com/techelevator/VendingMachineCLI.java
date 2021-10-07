@@ -1,11 +1,20 @@
 package com.techelevator;
 
+import java.io.IOException;
+
 // Vending Machine Command Line Interface application
 public class VendingMachineCLI {
 
 	public static void main(String[] args) {
-		VendingMachine vm = new VendingMachine();
-		vm.setInventory();
+		VendingMachine vm = null;
+
+		try {
+			vm = new VendingMachine();
+		} catch (IOException e) {
+			System.out.println("Error while trying to write the machine log. Please try again.");
+			return;
+		}
+
 		UI ui = new UI(vm);
 
 		int userInputNum1 = 0;

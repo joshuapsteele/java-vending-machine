@@ -84,7 +84,7 @@ public class UI {
                     }
                 }
                 if(inputNum2 == 3){
-                    System.out.println("Transaction completed. Your change is: " + UIvm.change());
+                    System.out.println("Transaction completed. Your change is: " );
                 }
             }catch(Exception e){
                 System.out.println("Did not enter a valid number, try again");
