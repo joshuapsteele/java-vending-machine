@@ -38,9 +38,10 @@ public class UI {
             System.out.println("(2) Select product");
             System.out.println("(3) Finish transaction");
             System.out.println();
-            System.out.println("Current money provided: " + moneyToAdd);
+            System.out.println("Current money provided: " + UIvm.getMachineBalance());
             String purchaseInput = input.nextLine();
             try {
+                /////////add error message , write tests for vending machine
                 inputNum2 = Integer.parseInt(purchaseInput);
                 if (inputNum2 == 1) {
                     System.out.println("How much money would you like to add?");
@@ -84,7 +85,7 @@ public class UI {
                     }
                 }
                 if(inputNum2 == 3){
-                    System.out.println("Transaction completed. Your change is: " );
+                    UIvm.change();
                 }
             }catch(Exception e){
                 System.out.println("Did not enter a valid number, try again");
@@ -92,7 +93,5 @@ public class UI {
 
         }
     }
-    public void finishTransaction(){
 
-    }
 }
