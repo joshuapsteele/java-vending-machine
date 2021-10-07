@@ -1,7 +1,9 @@
 package com.techelevator;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -10,7 +12,8 @@ public class VendingMachine {
     Map<String, Item> inventory = new LinkedHashMap<>();
     double machineBalance = 0;
 
-    // I'm thinking we need something like the following in here to be able to write to a log.txt file.
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    String timeNow = timeFormatter.format(LocalDateTime.now());
 
     File log = new File("Log.txt");
     FileWriter fileWriter = new FileWriter(log, true);
@@ -42,33 +45,30 @@ public class VendingMachine {
     }
 
     public void listInventory() {
+        System.out.println(LocalDateTime.now().toString());
 
         for (String itemCode : inventory.keySet()) {
             if (inventory.get(itemCode).getQuantity() == 0) {
 
-                System.out.format("%-5s%-20s%-15s%n", itemCode, inventory.get(itemCode).getName(), "SOLD OUT");
+                System.out.format("%-5s%-20s%-10s%n", itemCode, inventory.get(itemCode).getName(), "SOLD OUT");
 
             } else {
 
-                System.out.format("%-5s%-20s%-15s%n", itemCode, inventory.get(itemCode).getName(), inventory.get(itemCode).getQuantity() + " remaining"); ///add price
+                System.out.format("%-5s%-20s%-10s%10.2f%n", itemCode, inventory.get(itemCode).getName(), inventory.get(itemCode).getQuantity() + " remaining", inventory.get(itemCode).getPrice());
 
             }
         }
     }
 
     public void transaction(String key) {
-        //As long as the item is not sold out, updates quantity of the requested item
-            inventory.get(key).decreaseQuantity();
-        //As long as there's enough money to buy the item, updates the machine balance
-            machineBalance -= inventory.get(key).getPrice();
-
-
-        logWriter.println(LocalDateTime.now().toString() + " " + inventory.get(key).getName() + " " + inventory.get(key).getCode() + " " + machineBalance);
-
+        inventory.get(key).decreaseQuantity();
+        logWriter.println(timeNow + " " + inventory.get(key).getName() + " " + inventory.get(key).getCode() + " $" + getMachineBalance() + " $" + (getMachineBalance() - inventory.get(key).getPrice()));
+        logWriter.flush();
+        machineBalance -= inventory.get(key).getPrice();
     }
 
     public void change() {
-        int centsLeft = (int) (machineBalance * 100);
+        int centsLeft = (int) (getMachineBalance() * 100);
         int numberOfQuarters = 0;
         int numberOfDimes = 0;
         int numberOfNickels = 0;
@@ -89,12 +89,15 @@ public class VendingMachine {
             }
 
         System.out.println("Here is your change.");
-        System.out.println("$ " + machineBalance);
+        System.out.println("$ " + (int) ((getMachineBalance() * 100) + 0.5) / 100d); //Rounds the double before displaying.
         System.out.println(numberOfQuarters + " Quarters");
         System.out.println(numberOfDimes + " Dimes");
         System.out.println(numberOfNickels + " Nickels");
         System.out.println(numberOfPennies + " Pennies");
-        //look into formatting the double
+
+        logWriter.println(timeNow + " GIVE CHANGE: $" + getMachineBalance() + " $0.00");
+        logWriter.flush();
+
         if (centsLeft == 0) {
             machineBalance = 0;
         }
@@ -106,6 +109,8 @@ public class VendingMachine {
 
     public void addMoney(double money) {
         machineBalance += money;
+        logWriter.println(timeNow + " FEED MONEY: $" + money + " $" + getMachineBalance());
+        logWriter.flush();
     }
 
     public double getMachineBalance() {

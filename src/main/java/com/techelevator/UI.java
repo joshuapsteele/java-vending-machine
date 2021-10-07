@@ -38,7 +38,7 @@ public class UI {
             System.out.println("(2) Select product");
             System.out.println("(3) Finish transaction");
             System.out.println();
-            System.out.println("Current money provided: " + UIvm.getMachineBalance());
+            System.out.println("Current money provided: $" + (((int)(UIvm.getMachineBalance() * 100 + 0.5)) / 100d));
             String purchaseInput = input.nextLine();
             try {
                 /////////add error message , write tests for vending machine

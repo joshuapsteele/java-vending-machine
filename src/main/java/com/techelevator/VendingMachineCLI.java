@@ -6,7 +6,7 @@ import java.io.IOException;
 public class VendingMachineCLI {
 
 	public static void main(String[] args) {
-		VendingMachine vm = null;
+		VendingMachine vm;
 
 		try {
 			vm = new VendingMachine();
