@@ -61,7 +61,6 @@ public class VendingMachine {
         //As long as the item is not sold out, updates quantity of the requested item
         if (inventory.containsKey(key) && inventory.get(key).getQuantity() > 0) {
             inventory.get(key).decreaseQuantity();
-
         } else {
             System.out.println("The item you've requested is SOLD OUT.");
             return;
