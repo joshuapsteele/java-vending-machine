@@ -4,6 +4,16 @@ package com.techelevator;
 public class VendingMachineCLI {
 
 	public static void main(String[] args) {
-		// Make some objects here!
+		VendingMachine vm = new VendingMachine();
+		vm.setInventory();
+		UI ui = new UI(vm);
+
+		int userInputNum1 = 0;
+		while(userInputNum1 != 3) {
+			userInputNum1 = ui.mainMenu();
+			if (userInputNum1 == 1) {
+				vm.listInventory();
+			}
+		}
 	}
 }
