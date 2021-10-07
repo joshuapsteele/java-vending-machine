@@ -50,41 +50,29 @@ public class VendingMachine {
 
             } else {
 
-                System.out.format("%-5s%-20s%-15s%n", itemCode, inventory.get(itemCode).getName(), inventory.get(itemCode).getQuantity() + " remaining");
+                System.out.format("%-5s%-20s%-15s%n", itemCode, inventory.get(itemCode).getName(), inventory.get(itemCode).getQuantity() + " remaining"); ///add price
 
             }
         }
     }
 
     public void transaction(String key) {
-
         //As long as the item is not sold out, updates quantity of the requested item
-        if (inventory.containsKey(key) && inventory.get(key).getQuantity() > 0) {
             inventory.get(key).decreaseQuantity();
-        } else {
-            System.out.println("The item you've requested is SOLD OUT.");
-            return;
-        }
-
         //As long as there's enough money to buy the item, updates the machine balance
-        if (machineBalance >= inventory.get(key).getPrice()) {
             machineBalance -= inventory.get(key).getPrice();
-        } else {
-            System.out.println("You do not have enough money to purchase this item. Please add more money, or select a different item.");
-            return;
-        }
+
 
         logWriter.println(LocalDateTime.now().toString() + " " + inventory.get(key).getName() + " " + inventory.get(key).getCode() + " " + machineBalance);
 
     }
 
     public void change() {
-        int centsLeft = (int) machineBalance * 100;
+        int centsLeft = (int) (machineBalance * 100);
         int numberOfQuarters = 0;
         int numberOfDimes = 0;
         int numberOfNickels = 0;
         int numberOfPennies = 0;
-
         while (centsLeft > 0)
             if (centsLeft >= 25) {
                 numberOfQuarters++;
@@ -106,7 +94,7 @@ public class VendingMachine {
         System.out.println(numberOfDimes + " Dimes");
         System.out.println(numberOfNickels + " Nickels");
         System.out.println(numberOfPennies + " Pennies");
-
+        //look into formatting the double
         if (centsLeft == 0) {
             machineBalance = 0;
         }
@@ -120,4 +108,7 @@ public class VendingMachine {
         machineBalance += money;
     }
 
+    public double getMachineBalance() {
+        return machineBalance;
+    }
 }

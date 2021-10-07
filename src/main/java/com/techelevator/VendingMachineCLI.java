@@ -23,6 +23,9 @@ public class VendingMachineCLI {
 			if (userInputNum1 == 1) {
 				vm.listInventory();
 			}
+			if (userInputNum1 == 2){
+				ui.purchase();
+			}
 		}
 	}
 }
