@@ -1,13 +1,13 @@
 package com.techelevator;
 
 public class Item {
-    private String code;
-    private String type;
-    private String name;
-    private double price;
+    private final String code;
+    private final String type;
+    private final String name;
+    private final double price;
     private int quantity;
 
-    public Item(String code, String name, double price, String type ) {
+    public Item(String code, String name, double price, String type) {
         this.code = code;
         this.type = type;
         this.name = name;
@@ -37,5 +37,9 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void decreaseQuantity() {
+        this.quantity--;
     }
 }
