@@ -7,20 +7,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
+
 public class VendingMachine {
     /*
     Hey for when you open this up tomorrow morning, there's a bug I caught which is that while the program
     outputs fine, the output to the log file looses correct double format after subtracting x.x5 from another
     number also ending in .x5. I tried a few things to fix it that didn't, and since you did the double formatting
     in this I wanted to defer to you on how to solve this. If you want to see what I mean, run the main application,
-    feed in 20, then buy D1 2 or 3 times, end the program, then take a look at the log. I tried changing the getMachineBalance
-    method to auto format everytime it was used but that didn't help so feel free to change it back
+    feed in 20, then buy D1 2 or 3 times, end the program, then take a look at the log.
+    I tried changing the getMachineBalance method to auto format everytime it was used but that didn't help
+    so feel free to change it back
      */
+
     Map<String, Item> inventory = new LinkedHashMap<>();
     double machineBalance = 0;
 
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-    String timeNow = timeFormatter.format(LocalDateTime.now());
+    DateTimeFormatter timeFormatterForLog = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    String timeNowForLog = timeFormatterForLog.format(LocalDateTime.now());
 
     File log = new File("Log.txt");
     FileWriter fileWriter = new FileWriter(log, true);
@@ -47,12 +50,11 @@ public class VendingMachine {
                 inventory.put(itemCode, currentItem);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Error. File not found!");
+            System.out.println("ERROR. Inventory file not found!");
         }
     }
 
     public void listInventory() {
-        System.out.println(LocalDateTime.now().toString());
 
         for (String itemCode : inventory.keySet()) {
             if (inventory.get(itemCode).getQuantity() == 0) {
@@ -61,22 +63,30 @@ public class VendingMachine {
 
             } else {
 
-                System.out.format("%-5s%-20s%-10s%10.2f%n", itemCode, inventory.get(itemCode).getName(), inventory.get(itemCode).getQuantity() + " remaining", inventory.get(itemCode).getPrice());
+                System.out.format("%-5s%-20s%-10s%10.2f%n", itemCode, inventory.get(itemCode).getName(),
+                        inventory.get(itemCode).getQuantity() + " remaining", inventory.get(itemCode).getPrice());
 
             }
         }
     }
 
-    public void transaction(String key) {
-        inventory.get(key).decreaseQuantity();
-        logWriter.println(timeNow + " " + inventory.get(key).getName() + " " + inventory.get(key).getCode() + " $" + getMachineBalance() + " $" + (getMachineBalance() - inventory.get(key).getPrice()));
+    public void transaction(String itemCode) {
+        Item purchasedItem = inventory.get(itemCode);
+        double costOfPurchasedItem = purchasedItem.getPrice();
+        double balanceBeforeTransaction = roundTheDouble(getMachineBalance());
+        double balanceAfterTransaction = roundTheDouble(getMachineBalance() - costOfPurchasedItem);
+
+        logWriter.println(timeNowForLog + " " + purchasedItem.getName() + " " + itemCode
+                + " $" + balanceBeforeTransaction + " $" + balanceAfterTransaction);
         logWriter.flush();
-        machineBalance -=  inventory.get(key).getPrice();
+
+        purchasedItem.decreaseQuantity();
+        machineBalance -= costOfPurchasedItem;
     }
 
-    public int[] change() {
+    public int[] getChange() {
         int centsLeft = (int) ((getMachineBalance() * 100) + 0.5);
-        int[] changeArr = new int[]{0, 0, 0, 0,centsLeft};
+        int[] changeArr = new int[]{0, 0, 0, 0, centsLeft};
 //        int numberOfQuarters = 0;
 //        int numberOfDimes = 0;
 //        int numberOfNickels = 0;
@@ -97,13 +107,14 @@ public class VendingMachine {
             }
 
 //        System.out.println("Here is your change.");
-//        System.out.println("$ " + (int) ((getMachineBalance() * 100) + 0.5) / 100d); //Rounds the double before displaying.
+//        System.out.println("$ " + (int) ((getMachineBalance() * 100) + 0.5) / 100d);
+//        Rounds the double before displaying.
 //        System.out.println(numberOfQuarters + " Quarters");
 //        System.out.println(numberOfDimes + " Dimes");
 //        System.out.println(numberOfNickels + " Nickels");
 //        System.out.println(numberOfPennies + " Pennies");
 
-        logWriter.println(timeNow + " GIVE CHANGE: $" + getMachineBalance() + " $0.00");
+        logWriter.println(timeNowForLog + " GIVE CHANGE: $" + roundTheDouble(getMachineBalance()) + " $0.00");
         logWriter.flush();
 
         if (centsLeft == 0) {
@@ -118,11 +129,15 @@ public class VendingMachine {
 
     public void addMoney(double money) {
         machineBalance += money;
-        logWriter.println(timeNow + " FEED MONEY: $" + money + " $" + getMachineBalance());
+        logWriter.println(timeNowForLog + " FEED MONEY: $" + roundTheDouble(money) + " $" + roundTheDouble(getMachineBalance()));
         logWriter.flush();
     }
 
     public double getMachineBalance() {
-        return (machineBalance * 100 ) /100d;
+        return machineBalance;
+    }
+
+    public double roundTheDouble(double numberToRound) {
+        return (((int)(numberToRound * 100 + 0.5)) / 100d);
     }
 }
