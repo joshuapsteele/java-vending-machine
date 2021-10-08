@@ -1,6 +1,8 @@
 package com.techelevator;
 
+import javax.swing.text.NumberFormatter;
 import java.io.*;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,6 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class VendingMachine {
+<<<<<<< HEAD
     /*
     Hey for when you open this up tomorrow morning, there's a bug I caught which is that while the program
     outputs fine, the output to the log file looses correct double format after subtracting x.x5 from another
@@ -18,6 +21,8 @@ public class VendingMachine {
     I tried changing the getMachineBalance method to auto format everytime it was used but that didn't help
     so feel free to change it back
      */
+=======
+>>>>>>> b0a171f02f3d4aa0f7fb8220ce529b21ce92f5b9
 
     Map<String, Item> inventory = new LinkedHashMap<>();
     double machineBalance = 0;
@@ -63,8 +68,13 @@ public class VendingMachine {
 
             } else {
 
+<<<<<<< HEAD
                 System.out.format("%-5s%-20s%-10s%10.2f%n", itemCode, inventory.get(itemCode).getName(),
                         inventory.get(itemCode).getQuantity() + " remaining", inventory.get(itemCode).getPrice());
+=======
+                System.out.format("%-5s%-20s%-10s%10s%n", itemCode, inventory.get(itemCode).getName(),
+                        inventory.get(itemCode).getQuantity() + " remaining", displayAsCurrency(inventory.get(itemCode).getPrice()));
+>>>>>>> b0a171f02f3d4aa0f7fb8220ce529b21ce92f5b9
 
             }
         }
@@ -73,11 +83,11 @@ public class VendingMachine {
     public void transaction(String itemCode) {
         Item purchasedItem = inventory.get(itemCode);
         double costOfPurchasedItem = purchasedItem.getPrice();
-        double balanceBeforeTransaction = roundTheDouble(getMachineBalance());
-        double balanceAfterTransaction = roundTheDouble(getMachineBalance() - costOfPurchasedItem);
+        String balanceBeforeTransaction = displayAsCurrency(getMachineBalance());
+        String balanceAfterTransaction = displayAsCurrency(getMachineBalance() - costOfPurchasedItem);
 
         logWriter.println(timeNowForLog + " " + purchasedItem.getName() + " " + itemCode
-                + " $" + balanceBeforeTransaction + " $" + balanceAfterTransaction);
+                + " " + balanceBeforeTransaction + " " + balanceAfterTransaction);
         logWriter.flush();
 
         purchasedItem.decreaseQuantity();
@@ -87,10 +97,6 @@ public class VendingMachine {
     public int[] getChange() {
         int centsLeft = (int) ((getMachineBalance() * 100) + 0.5);
         int[] changeArr = new int[]{0, 0, 0, 0, centsLeft};
-//        int numberOfQuarters = 0;
-//        int numberOfDimes = 0;
-//        int numberOfNickels = 0;
-//        int numberOfPennies = 0;
         while (centsLeft > 0)
             if (centsLeft >= 25) {
                 changeArr[0]++;
@@ -106,15 +112,7 @@ public class VendingMachine {
                 centsLeft--;
             }
 
-//        System.out.println("Here is your change.");
-//        System.out.println("$ " + (int) ((getMachineBalance() * 100) + 0.5) / 100d);
-//        Rounds the double before displaying.
-//        System.out.println(numberOfQuarters + " Quarters");
-//        System.out.println(numberOfDimes + " Dimes");
-//        System.out.println(numberOfNickels + " Nickels");
-//        System.out.println(numberOfPennies + " Pennies");
-
-        logWriter.println(timeNowForLog + " GIVE CHANGE: $" + roundTheDouble(getMachineBalance()) + " $0.00");
+        logWriter.println(timeNowForLog + " GIVE CHANGE: " + displayAsCurrency(getMachineBalance()) + " $0.00");
         logWriter.flush();
 
         if (centsLeft == 0) {
@@ -129,7 +127,7 @@ public class VendingMachine {
 
     public void addMoney(double money) {
         machineBalance += money;
-        logWriter.println(timeNowForLog + " FEED MONEY: $" + roundTheDouble(money) + " $" + roundTheDouble(getMachineBalance()));
+        logWriter.println(timeNowForLog + " FEED MONEY: " + displayAsCurrency(money) + " " + displayAsCurrency(getMachineBalance()));
         logWriter.flush();
     }
 
@@ -138,6 +136,11 @@ public class VendingMachine {
     }
 
     public double roundTheDouble(double numberToRound) {
-        return (((int)(numberToRound * 100 + 0.5)) / 100d);
+        return (((int) (numberToRound * 100 + 0.5)) / 100d);
+    }
+
+    public String displayAsCurrency(double rawDoubleNeedsFormatting) {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        return formatter.format(rawDoubleNeedsFormatting);
     }
 }
