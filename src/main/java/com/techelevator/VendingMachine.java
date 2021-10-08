@@ -127,4 +127,8 @@ public class VendingMachine {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         return formatter.format(rawDoubleNeedsFormatting);
     }
+
+    public void closeTheLog() {
+        logWriter.close();
+    }
 }

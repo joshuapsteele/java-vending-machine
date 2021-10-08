@@ -36,7 +36,7 @@ public class UI {
                 System.out.println("INVALID INPUT. Please enter a number: 1, 2, or 3.");
                 System.out.println();
             }
-            if (inputNumMainMenu > 0 && inputNumMainMenu < 4) {
+            if (inputNumMainMenu > 0 && inputNumMainMenu < 5) {
                 break;
             }
             System.out.println();

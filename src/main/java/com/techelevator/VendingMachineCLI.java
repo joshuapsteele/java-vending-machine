@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 // Vending Machine Command Line Interface application
@@ -8,6 +9,8 @@ public class VendingMachineCLI {
     public static void main(String[] args) {
 
         VendingMachine newVendingMachine;
+        UI userInterface;
+        VendingMachineSalesReport salesReport;
 
         try {
             newVendingMachine = new VendingMachine();
@@ -20,7 +23,7 @@ public class VendingMachineCLI {
         System.out.println("Welcome to the VENDO-MATIC 800!");
         System.out.println("*******************************");
 
-        UI userInterface = new UI(newVendingMachine);
+        userInterface = new UI(newVendingMachine);
 
         int userInputMainMenu = 0;
         while (userInputMainMenu != 3) {
@@ -30,6 +33,15 @@ public class VendingMachineCLI {
             }
             if (userInputMainMenu == 2) {
                 userInterface.purchaseMenu();
+            }
+            if (userInputMainMenu == 4) {
+                //newVendingMachine.closeTheLog();
+                salesReport = new VendingMachineSalesReport(newVendingMachine);
+                try {
+                    salesReport.generateSalesReport();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         }
         System.out.println("Thanks for using the VENDO-MATIC 800. Have a wonderful day!");
