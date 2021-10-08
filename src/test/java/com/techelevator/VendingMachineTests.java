@@ -20,17 +20,17 @@ public class VendingMachineTests {
     }
 
     @Test
-    public void change_for_830_yields_33_Quarters_and_1_Nickel(){
+    public void change_for_830_yields_33_Quarters_and_1_Nickel() {
 
         testVM.addMoney(8.30);
         int[] testArr = testVM.getChange();
-        Assert.assertEquals(33,testArr[0]);
-        Assert.assertEquals(1,testArr[2]);
+        Assert.assertEquals(33, testArr[0]);
+        Assert.assertEquals(1, testArr[2]);
 
     }
 
     @Test
-    public void starting_with_1000_purchasing_D3_D3_A2_C3_yields_correct_inventories_and_machine_balance(){
+    public void starting_with_1000_purchasing_D3_D3_A2_C3_yields_correct_inventories_and_machine_balance() {
         testVM.addMoney(10.00);
         testVM.transaction("D3");
         testVM.transaction("D3");
@@ -39,6 +39,6 @@ public class VendingMachineTests {
 
         Assert.assertEquals(3, testVM.getInventory().get("D3").getQuantity());
         Assert.assertEquals(4, testVM.getInventory().get("A2").getQuantity());
-        Assert.assertEquals(5.55, testVM.getMachineBalance(),0.01);
+        Assert.assertEquals(5.55, testVM.getMachineBalance(), 0.01);
     }
 }

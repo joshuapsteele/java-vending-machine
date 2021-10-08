@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -34,12 +33,13 @@ public class VendingMachineSalesReport {
         String localDateAndTimeNow = correctDateTimeFormat.format(localDateTime);
 
         File vendingMachineLog = new File("Log.txt");
-        File vendingMachineSalesReport = new File("sales-reports/" + localDateAndTimeNow + "_SALES_REPORT.txt");
+        File vendingMachineSalesReport = new File("sales-reports/" +
+                localDateAndTimeNow + "_SALES_REPORT.txt");
 
         double totalSales = 0;
 
         try (Scanner vendingMachineLogReader = new Scanner(vendingMachineLog);
-        PrintWriter salesReportWriter = new PrintWriter(vendingMachineSalesReport)) {
+             PrintWriter salesReportWriter = new PrintWriter(vendingMachineSalesReport)) {
 
             salesReportWriter.println("****SALES REPORT****");
             salesReportWriter.println("Generated on: " + localDateAndTimeNow);

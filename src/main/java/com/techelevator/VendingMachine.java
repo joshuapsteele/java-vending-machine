@@ -57,7 +57,8 @@ public class VendingMachine {
             } else {
 
                 System.out.format("%-5s%-20s%-10s%10s%n", itemCode, inventory.get(itemCode).getName(),
-                        inventory.get(itemCode).getQuantity() + " remaining", displayAsCurrency(inventory.get(itemCode).getPrice()));
+                        inventory.get(itemCode).getQuantity() + " remaining",
+                        displayAsCurrency(inventory.get(itemCode).getPrice()));
 
             }
         }
@@ -67,7 +68,8 @@ public class VendingMachine {
         Item purchasedItem = inventory.get(itemCode);
         double costOfPurchasedItem = purchasedItem.getPrice();
         String balanceBeforeTransaction = displayAsCurrency(getMachineBalance());
-        String balanceAfterTransaction = displayAsCurrency(getMachineBalance() - costOfPurchasedItem);
+        String balanceAfterTransaction =
+                displayAsCurrency(getMachineBalance() - costOfPurchasedItem);
 
         logWriter.println(timeNowForLog + " " + purchasedItem.getName() + " " + itemCode
                 + " " + balanceBeforeTransaction + " " + balanceAfterTransaction);
@@ -111,7 +113,8 @@ public class VendingMachine {
 
     public void addMoney(double money) {
         machineBalance += money;
-        logWriter.println(timeNowForLog + " FEED MONEY: " + displayAsCurrency(money) + " " + displayAsCurrency(getMachineBalance()));
+        logWriter.println(timeNowForLog + " FEED MONEY: " + displayAsCurrency(money) + " "
+                + displayAsCurrency(getMachineBalance()));
         logWriter.flush();
     }
 
@@ -126,9 +129,5 @@ public class VendingMachine {
     public String displayAsCurrency(double rawDoubleNeedsFormatting) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         return formatter.format(rawDoubleNeedsFormatting);
-    }
-
-    public void closeTheLog() {
-        logWriter.close();
     }
 }

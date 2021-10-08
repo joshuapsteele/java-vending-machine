@@ -62,7 +62,8 @@ public class UI {
             System.out.println("(2) Select product");
             System.out.println("(3) Finish transaction");
             System.out.println();
-            System.out.println("You've got this much money in the machine: " + uiVendingMachine.displayAsCurrency(uiVendingMachine.getMachineBalance()));
+            System.out.println("You've got this much money in the machine: " +
+                    uiVendingMachine.displayAsCurrency(uiVendingMachine.getMachineBalance()));
             System.out.println();
             System.out.print("Type a number, then hit Enter: ");
             String purchaseInput = input.nextLine();
@@ -86,7 +87,8 @@ public class UI {
                     try {
                         moneyToAdd += Double.parseDouble(moneyToAddStr);
 
-                        if (moneyToAdd == 1 || moneyToAdd == 2 || moneyToAdd == 5 || moneyToAdd == 10 || moneyToAdd == 20) {
+                        if (moneyToAdd == 1 || moneyToAdd == 2 || moneyToAdd == 5
+                                || moneyToAdd == 10 || moneyToAdd == 20) {
                             uiVendingMachine.addMoney(moneyToAdd);
                             moneyToAdd = 0;
                         } else {
@@ -117,12 +119,15 @@ public class UI {
                         System.out.println();
                     } else if (uiVendingMachine.getInventory().get(desiredItem).getQuantity() == 0) {
                         System.out.println();
-                        System.out.println("Sorry, that item is OUT OF STOCK. Please try again and select a different item.");
+                        System.out.println("Sorry, that item is OUT OF STOCK. " +
+                                "Please try again and select a different item.");
                         System.out.println();
                     } else {
-                        if (uiVendingMachine.machineBalance < uiVendingMachine.getInventory().get(desiredItem).getPrice()) {
+                        if (uiVendingMachine.machineBalance <
+                                uiVendingMachine.getInventory().get(desiredItem).getPrice()) {
                             System.out.println();
-                            System.out.println("Sorry, you haven't paid enough to purchase that item. Please select a cheaper item or pay more money.");
+                            System.out.println("Sorry, you haven't paid enough to purchase that item. " +
+                                    "Please select a cheaper item or pay more money.");
                             System.out.println();
                         } else {
                             uiVendingMachine.transaction(desiredItem);

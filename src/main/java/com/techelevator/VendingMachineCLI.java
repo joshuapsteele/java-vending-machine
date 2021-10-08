@@ -15,7 +15,8 @@ public class VendingMachineCLI {
         try {
             newVendingMachine = new VendingMachine();
         } catch (IOException e) {
-            System.out.println("Error while trying to write the machine log. Please try loading the Vendo-Matic 800 again.");
+            System.out.println("Error while trying to write the machine log. " +
+                    "Please try loading the Vendo-Matic 800 again.");
             return;
         }
 
@@ -35,7 +36,6 @@ public class VendingMachineCLI {
                 userInterface.purchaseMenu();
             }
             if (userInputMainMenu == 4) {
-                //newVendingMachine.closeTheLog();
                 salesReport = new VendingMachineSalesReport(newVendingMachine);
                 try {
                     salesReport.generateSalesReport();
