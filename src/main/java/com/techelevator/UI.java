@@ -8,15 +8,16 @@ public class UI {
 
     Scanner input = new Scanner(System.in);
     VendingMachine uiVendingMachine;
-    public UI(VendingMachine vendingMachine){
+
+    public UI(VendingMachine vendingMachine) {
         this.uiVendingMachine = vendingMachine;
     }
 
-    public int mainMenu(){
+    public int mainMenu() {
 
         int inputNumMainMenu = 0;
 
-        while(true) {
+        while (true) {
             System.out.println();
             System.out.println("===========MAIN MENU===========");
             System.out.println();
@@ -30,12 +31,12 @@ public class UI {
             String userInput = input.nextLine();
             try {
                 inputNumMainMenu = Integer.parseInt(userInput);
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println();
                 System.out.println("INVALID INPUT. Please enter a number: 1, 2, or 3.");
                 System.out.println();
             }
-            if(inputNumMainMenu > 0 && inputNumMainMenu < 4){
+            if (inputNumMainMenu > 0 && inputNumMainMenu < 4) {
                 break;
             }
             System.out.println();
@@ -46,12 +47,12 @@ public class UI {
         return inputNumMainMenu;
     }
 
-    public void purchaseMenu(){
+    public void purchaseMenu() {
 
         int inputNumPurchaseMenu = 0;
         double moneyToAdd = 0;
 
-        while(inputNumPurchaseMenu != 3) {
+        while (inputNumPurchaseMenu != 3) {
             System.out.println();
             System.out.println("=========PURCHASE MENU=========");
             System.out.println();
@@ -61,14 +62,14 @@ public class UI {
             System.out.println("(2) Select product");
             System.out.println("(3) Finish transaction");
             System.out.println();
-            System.out.println("You've got this much money in the machine: $" + uiVendingMachine.roundTheDouble(uiVendingMachine.getMachineBalance())); //(((int)(uiVendingMachine.getMachineBalance() * 100 + 0.5)) / 100d));
+            System.out.println("You've got this much money in the machine: " + uiVendingMachine.displayAsCurrency(uiVendingMachine.getMachineBalance()));
             System.out.println();
             System.out.print("Type a number, then hit Enter: ");
             String purchaseInput = input.nextLine();
 
             try {
                 inputNumPurchaseMenu = Integer.parseInt(purchaseInput);
-                if (inputNumPurchaseMenu > 3 || inputNumPurchaseMenu < 1){
+                if (inputNumPurchaseMenu > 3 || inputNumPurchaseMenu < 1) {
                     System.out.println();
                     System.out.println("INVALID INPUT. Please enter a number: 1, 2, or 3.");
                     System.out.println();
@@ -85,24 +86,24 @@ public class UI {
                     try {
                         moneyToAdd += Double.parseDouble(moneyToAddStr);
 
-                        if(moneyToAdd == 1 || moneyToAdd == 2 || moneyToAdd == 5 || moneyToAdd == 10 || moneyToAdd == 20){
+                        if (moneyToAdd == 1 || moneyToAdd == 2 || moneyToAdd == 5 || moneyToAdd == 10 || moneyToAdd == 20) {
                             uiVendingMachine.addMoney(moneyToAdd);
                             moneyToAdd = 0;
-                        } else{
+                        } else {
                             System.out.println();
                             System.out.println("INVALID INPUT. Please enter 1, 2, 5, 10, or 20.");
                             System.out.println();
                             moneyToAdd -= moneyToAdd;
                         }
 
-                    }catch(Exception b){
+                    } catch (Exception b) {
                         System.out.println();
                         System.out.println("INVALID INPUT. Please enter 1, 2, 5, 10, or 20.");
                         System.out.println();
                     }
                 }
 
-                if(inputNumPurchaseMenu == 2){
+                if (inputNumPurchaseMenu == 2) {
 
                     uiVendingMachine.listInventory();
 
@@ -110,20 +111,20 @@ public class UI {
                     System.out.print("Please enter the code for the item you'd like to purchase: ");
                     String desiredItem = input.nextLine();
 
-                    if(!uiVendingMachine.getInventory().containsKey(desiredItem)){
+                    if (!uiVendingMachine.getInventory().containsKey(desiredItem)) {
                         System.out.println();
                         System.out.println("INVALID INPUT. Please try again and enter a valid item code.");
                         System.out.println();
-                    }else if(uiVendingMachine.getInventory().get(desiredItem).getQuantity() == 0){
+                    } else if (uiVendingMachine.getInventory().get(desiredItem).getQuantity() == 0) {
                         System.out.println();
                         System.out.println("Sorry, that item is OUT OF STOCK. Please try again and select a different item.");
                         System.out.println();
-                    }else{
-                        if(uiVendingMachine.machineBalance < uiVendingMachine.getInventory().get(desiredItem).getPrice()){
+                    } else {
+                        if (uiVendingMachine.machineBalance < uiVendingMachine.getInventory().get(desiredItem).getPrice()) {
                             System.out.println();
                             System.out.println("Sorry, you haven't paid enough to purchase that item. Please select a cheaper item or pay more money.");
                             System.out.println();
-                        }else {
+                        } else {
                             uiVendingMachine.transaction(desiredItem);
 
                             String itemType = uiVendingMachine.inventory.get(desiredItem).getType();
@@ -152,28 +153,28 @@ public class UI {
                     }
                 }
 
-                if(inputNumPurchaseMenu == 3){
+                if (inputNumPurchaseMenu == 3) {
 
-                    double changeOwed =  uiVendingMachine.roundTheDouble(uiVendingMachine.getMachineBalance()); //(((int)(uiVendingMachine.getMachineBalance() * 100 + 0.5)) / 100d);
+                    double changeOwed = uiVendingMachine.roundTheDouble(uiVendingMachine.getMachineBalance());
                     System.out.println();
-                    System.out.println("Your change is: $" +   (changeOwed));
+                    System.out.println("Your change is: " + uiVendingMachine.displayAsCurrency(changeOwed));
                     System.out.println("Here are your coins:");
                     System.out.println();
 
                     int[] changeArr = uiVendingMachine.getChange();
                     System.out.println(changeArr[0] + " Quarters");
-                    if(changeArr[1] != 0) {
+                    if (changeArr[1] != 0) {
                         System.out.println(changeArr[1] + " Dimes");
                     }
-                    if(changeArr[2] != 0) {
+                    if (changeArr[2] != 0) {
                         System.out.println(changeArr[2] + " Nickels");
                     }
-                    if(changeArr[3] != 0) {
+                    if (changeArr[3] != 0) {
                         System.out.println(changeArr[3] + " Pennies");
                     }
                 }
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println();
                 System.out.println("INVALID INPUT. Please enter a number, 1, 2, or 3.");
                 System.out.println();
