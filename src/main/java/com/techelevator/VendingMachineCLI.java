@@ -27,5 +27,6 @@ public class VendingMachineCLI {
 				ui.purchase();
 			}
 		}
+		System.out.println("Thanks for using the Vendo-Matic 800. Have a wonderful day!");
 	}
 }

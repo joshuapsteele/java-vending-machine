@@ -7,8 +7,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
-
 public class VendingMachine {
+    /*
+    Hey for when you open this up tomorrow morning, there's a bug I caught which is that while the program
+    outputs fine, the output to the log file looses correct double format after subtracting x.x5 from another
+    number also ending in .x5. I tried a few things to fix it that didn't, and since you did the double formatting
+    in this I wanted to defer to you on how to solve this. If you want to see what I mean, run the main application,
+    feed in 20, then buy D1 2 or 3 times, end the program, then take a look at the log. I tried changing the getMachineBalance
+    method to auto format everytime it was used but that didn't help so feel free to change it back
+     */
     Map<String, Item> inventory = new LinkedHashMap<>();
     double machineBalance = 0;
 
@@ -64,7 +71,7 @@ public class VendingMachine {
         inventory.get(key).decreaseQuantity();
         logWriter.println(timeNow + " " + inventory.get(key).getName() + " " + inventory.get(key).getCode() + " $" + getMachineBalance() + " $" + (getMachineBalance() - inventory.get(key).getPrice()));
         logWriter.flush();
-        machineBalance -= inventory.get(key).getPrice();
+        machineBalance -=  inventory.get(key).getPrice();
     }
 
     public int[] change() {
@@ -116,6 +123,6 @@ public class VendingMachine {
     }
 
     public double getMachineBalance() {
-        return machineBalance;
+        return (machineBalance * 100 ) /100d;
     }
 }

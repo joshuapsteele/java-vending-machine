@@ -41,7 +41,6 @@ public class UI {
             System.out.println("Current money provided: $" + (((int)(UIvm.getMachineBalance() * 100 + 0.5)) / 100d));
             String purchaseInput = input.nextLine();
             try {
-                /////////add error message , write tests for vending machine
                 inputNum2 = Integer.parseInt(purchaseInput);
                 if (inputNum2 > 3 || inputNum2 < 1){
                     System.out.println("Please enter a valid option choice.");
@@ -55,6 +54,7 @@ public class UI {
                         moneyToAdd += Double.parseDouble(moneyToAddStr);
                         if(moneyToAdd == 1 || moneyToAdd == 2 || moneyToAdd == 5 || moneyToAdd == 10 || moneyToAdd == 20){
                             UIvm.addMoney(moneyToAdd);
+                            moneyToAdd = 0;
                         } else{
                             System.out.println("You may only enter valid bills. 1,2,5 etc");
                             moneyToAdd -= moneyToAdd;
