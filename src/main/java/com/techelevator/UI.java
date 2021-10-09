@@ -1,7 +1,5 @@
 package com.techelevator;
 
-import jdk.swing.interop.SwingInterOpUtils;
-
 import java.util.Scanner;
 
 public class UI {

@@ -12,17 +12,6 @@ import java.util.Scanner;
 
 public class VendingMachine {
 
-    /*
-    Hey for when you open this up tomorrow morning, there's a bug I caught which is that while the program
-    outputs fine, the output to the log file looses correct double format after subtracting x.x5 from another
-    number also ending in .x5. I tried a few things to fix it that didn't, and since you did the double formatting
-    in this I wanted to defer to you on how to solve this. If you want to see what I mean, run the main application,
-    feed in 20, then buy D1 2 or 3 times, end the program, then take a look at the log.
-    I tried changing the getMachineBalance method to auto format everytime it was used but that didn't help
-    so feel free to change it back
-     */
-
-
     Map<String, Item> inventory = new LinkedHashMap<>();
     double machineBalance = 0;
 
@@ -67,15 +56,9 @@ public class VendingMachine {
 
             } else {
 
-
-//                System.out.format("%-5s%-20s%-10s%10.2f%n", itemCode, inventory.get(itemCode).getName(),
-//                        inventory.get(itemCode).getQuantity() + " remaining", inventory.get(itemCode).getPrice());
-
                 System.out.format("%-5s%-20s%-10s%10s%n", itemCode, inventory.get(itemCode).getName(),
                         inventory.get(itemCode).getQuantity() + " remaining",
                         displayAsCurrency(inventory.get(itemCode).getPrice()));
-
-
             }
         }
     }

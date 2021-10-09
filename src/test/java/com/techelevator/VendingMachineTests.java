@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,5 +41,33 @@ public class VendingMachineTests {
         Assert.assertEquals(3, testVM.getInventory().get("D3").getQuantity());
         Assert.assertEquals(4, testVM.getInventory().get("A2").getQuantity());
         Assert.assertEquals(5.55, testVM.getMachineBalance(), 0.01);
+        testVM.getChange();
+    }
+
+    @Test
+    public void out_of_stock_test(){
+        testVM.addMoney(10.00);
+        testVM.transaction("B2");
+        testVM.transaction("B2");
+        testVM.transaction("B2");
+        testVM.transaction("B2");
+        testVM.transaction("B2");
+        Assert.assertEquals(0, testVM.getInventory().get("B2").getQuantity());
+        testVM.getChange();
+    }
+
+    @Test
+    public void purchasing_multiple_items_math_and_double_format_holds_up_test(){
+        testVM.addMoney(20.00);
+        testVM.transaction("A1");
+        testVM.transaction("B3");
+        testVM.transaction("C3");
+        testVM.transaction("D3");
+        testVM.transaction("B1");
+        testVM.transaction("C2");
+        testVM.transaction("A4");
+        testVM.transaction("D3");
+        Assert.assertEquals("$5.50",testVM.displayAsCurrency(testVM.getMachineBalance()));
+        testVM.getChange();
     }
 }
