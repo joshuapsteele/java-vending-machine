@@ -142,7 +142,7 @@ public class UI {
                                 System.out.println("Chew Chew, Yum!");
                                 System.out.println();
                             }
-                            if (itemType.equals("Chips")) {
+                            if (itemType.equals("Chip")) {
                                 System.out.println();
                                 System.out.println("Crunch Crunch, Yum!");
                                 System.out.println();
