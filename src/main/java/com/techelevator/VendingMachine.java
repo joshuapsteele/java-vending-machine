@@ -23,7 +23,7 @@ public class VendingMachine {
     PrintWriter logWriter = new PrintWriter(fileWriter);
 
     public VendingMachine() throws IOException {
-        setInventory();
+        setInventory(); // Fully stocks the vending machine from the .csv file each time a vending machine is created.
     }
 
     public void setInventory() {

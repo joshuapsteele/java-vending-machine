@@ -7,6 +7,11 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+/*
+The VENDO-MATIC 800 handles almost all user input validation through defensive programming in the UI class.
+These tests are meant to check the performance of the product inventory, machine balance, and change functions.
+ */
+
 public class VendingMachineTests {
 
     private VendingMachine testVM;
@@ -68,6 +73,23 @@ public class VendingMachineTests {
         testVM.transaction("A4");
         testVM.transaction("D3");
         Assert.assertEquals("$5.50",testVM.displayAsCurrency(testVM.getMachineBalance()));
+        testVM.getChange();
+    }
+
+    @Test
+    public void buying_the_whole_damn_machine_yields_correct_change(){
+        for (int i = 0; i < 50; i++) {
+            testVM.addMoney(20);
+        }
+        for (int j = 0; j < 5; j++) {
+            for (int k = 1; k < 5; k++) {
+                testVM.transaction("A" + k);
+                testVM.transaction("B" + k);
+                testVM.transaction("C" + k);
+                testVM.transaction("D" + k);
+            }
+        }
+        Assert.assertEquals("$867.50",testVM.displayAsCurrency(testVM.getMachineBalance()));
         testVM.getChange();
     }
 }

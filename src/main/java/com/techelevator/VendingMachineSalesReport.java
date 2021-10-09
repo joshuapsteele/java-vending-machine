@@ -16,6 +16,7 @@ public class VendingMachineSalesReport {
     VendingMachine vendingMachine;
     Map<String, Integer> salesReportInventory = new LinkedHashMap<>();
 
+    // Creates a Map from the vending machine's inventory Map to keep track of sales report numbers.
     public VendingMachineSalesReport(VendingMachine currentVendingMachine) {
 
         this.vendingMachine = currentVendingMachine;
@@ -26,17 +27,24 @@ public class VendingMachineSalesReport {
 
     }
 
-    public void generateSalesReport() throws FileNotFoundException {
+    public Map<String, Integer> generateSalesReport() throws FileNotFoundException {
 
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter correctDateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd_hhmmss");
         String localDateAndTimeNow = correctDateTimeFormat.format(localDateTime);
 
         File vendingMachineLog = new File("Log.txt");
+        new File("sales-reports").mkdir();
         File vendingMachineSalesReport = new File("sales-reports/" +
                 localDateAndTimeNow + "_SALES_REPORT.txt");
 
         double totalSales = 0;
+
+        /*
+        Uses the vending machine's continuous Log.txt file to update
+        the sales report Map with correct sales numbers. Then generates
+        the sales report .txt file from the sales report Map.
+        */
 
         try (Scanner vendingMachineLogReader = new Scanner(vendingMachineLog);
              PrintWriter salesReportWriter = new PrintWriter(vendingMachineSalesReport)) {
@@ -47,7 +55,7 @@ public class VendingMachineSalesReport {
 
             while (vendingMachineLogReader.hasNextLine()) {
                 String currentLine = vendingMachineLogReader.nextLine();
-                Pattern itemCodePattern = Pattern.compile("[A-Z]\\d");
+                Pattern itemCodePattern = Pattern.compile("[A-Z]\\d"); // Searches each line of Log.txt for item codes.
                 Matcher itemCodePatternMatcher = itemCodePattern.matcher(currentLine);
                 if (itemCodePatternMatcher.find()) {
                     String itemCode = itemCodePatternMatcher.group();
@@ -70,5 +78,6 @@ public class VendingMachineSalesReport {
             salesReportWriter.println();
             salesReportWriter.println("Total Sales to Date: " + totalSalesAsString);
         }
+        return salesReportInventory;
     }
 }
