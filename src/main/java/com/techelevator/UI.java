@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class UI {
 
-    Scanner input = new Scanner(System.in);
-    VendingMachine uiVendingMachine;
+    private Scanner input = new Scanner(System.in);
+    private VendingMachine uiVendingMachine;
 
     public UI(VendingMachine vendingMachine) {
         this.uiVendingMachine = vendingMachine;
@@ -121,7 +121,7 @@ public class UI {
                                 "Please try again and select a different item.");
                         System.out.println();
                     } else {
-                        if (uiVendingMachine.machineBalance <
+                        if (uiVendingMachine.getMachineBalance() <
                                 uiVendingMachine.getInventory().get(desiredItem).getPrice()) {
                             System.out.println();
                             System.out.println("Sorry, you haven't paid enough to purchase that item. " +
@@ -130,7 +130,7 @@ public class UI {
                         } else {
                             uiVendingMachine.transaction(desiredItem);
 
-                            String itemType = uiVendingMachine.inventory.get(desiredItem).getType();
+                            String itemType = uiVendingMachine.getInventory().get(desiredItem).getType();
 
                             if (itemType.equals("Candy")) {
                                 System.out.println();

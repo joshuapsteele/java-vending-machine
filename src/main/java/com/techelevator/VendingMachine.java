@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 public class VendingMachine {
 
-    Map<String, Item> inventory = new LinkedHashMap<>();
-    double machineBalance = 0;
+    private Map<String, Item> inventory = new LinkedHashMap<>();
+    private double machineBalance = 0;
 
     DateTimeFormatter timeFormatterForLog = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     String timeNowForLog = timeFormatterForLog.format(LocalDateTime.now());

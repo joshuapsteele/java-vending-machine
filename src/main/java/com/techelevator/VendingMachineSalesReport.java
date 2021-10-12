@@ -13,8 +13,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VendingMachineSalesReport {
-    VendingMachine vendingMachine;
-    Map<String, Integer> salesReportInventory = new LinkedHashMap<>();
+    private VendingMachine vendingMachine;
+    private Map<String, Integer> salesReportInventory = new LinkedHashMap<>();
 
     // Creates a Map from the vending machine's inventory Map to keep track of sales report numbers.
     public VendingMachineSalesReport(VendingMachine currentVendingMachine) {
